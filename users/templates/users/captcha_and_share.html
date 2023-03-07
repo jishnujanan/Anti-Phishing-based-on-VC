@@ -7,10 +7,19 @@
 			font-family: Arial, sans-serif;
 			background-size: cover;
 			background-position: center center;
-			color: white;
+			color: black 	;
 			margin: 0;
 			padding: 0;
 			box-sizing: border-box;
+		}
+		.image-container {
+        text-align: center;
+		}
+		
+		.image {
+			display: inline-block;
+			max-width: 300px;
+			max-height: 300px;
 		}
 		h1 {
 			text-align: center;
@@ -59,9 +68,17 @@
 	</style>
 </head>
 <body>
-	<h1>Two Images</h1>
-	<div style="display: flex;">
-		<h1>{{ path }}</h1>
+	<div>
+		<h2 style="text-align: center;">This is your image captcha</h2>
+	</div>
+	<div class="image-container">
+		<img class="image" src="\media\captcha\{{ filename }}.png" style="width: 50%; height: auto;">
+	</div>
+	<div>
+		<h2 style="text-align: center;">This is your share</h2>
+	</div>
+	<div class="image-container">
+		<img class="image" src="\media\shares\{{ filename }}_share_1.png" style="width: 50%; height: auto;">
 	</div>
 </body>
 </html>
