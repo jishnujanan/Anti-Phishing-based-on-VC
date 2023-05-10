@@ -1,9 +1,12 @@
-# import cv2
+import cv2
 import os
 from django.shortcuts import render
+from face_rec import FaceRecognition
+from django.shortcuts import redirect, render
 from .forms import RegistrationForm
 from .models import User,Captcha
 from  visual_cryptography import captchageneration,share_generator
+from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
@@ -33,37 +36,51 @@ def register(request):
 
 
 def login(request):
-    # if request.method == 'GET':
-    #     return render(request, 'website/login.html',)
-    # elif request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     userdata = User.objects.filter(username = username).values()
-    #     global frame
-    #     def capture_frame(event, x, y, flags, param):
-    #         if event == cv2.EVENT_LBUTTONDOWN:
-    #             cv2.imwrite(username, frame)
-    #             print(OS)
-    #     if(User.objects.filter(username=username).exists()):
-    #         print("Username Exists")
-    #         video_capture = cv2.VideoCapture(0)
-    #         if not video_capture.isOpened():
-    #             print("Failed to open video capture.")
-    #             exit()
-    #         cv2.namedWindow("Live Video")
-    #         cv2.setMouseCallback("Live Video", capture_frame)
-    #         while True:
-    #             ret, frame = video_capture.read()
-    #             if ret:
-    #                 cv2.imshow("Live Video", frame)
-    #                 if cv2.waitKey(1) & 0xFF == ord('q'):
-    #                     break
-    #             else:
-    #                 print("Failed to capture frame from video.")
-    #                 break
-    #         video_capture.release()
-    #         cv2.destroyAllWindows()
-            
-    #     else:
-    #         print("Username not Exists")
-    return render(request, 'website/login.html',)
+    if request.method == 'GET':
+        return render(request, 'website/login.html',)
+    elif request.method == 'POST':
+        username = request.POST.get('username')
+        userdata = User.objects.filter(username = username).values()
+        global frame
+        def capture_frame(event, x, y, flags, param):
+            if event == cv2.EVENT_LBUTTONDOWN:
+                directory = r'D:\ANTI PHISHING\Anti-Phishing-based-on-VC\captured_images'
+                os.chdir(directory)
+                cv2.imwrite(username+".jpg", frame)
 
+        directory = r'D:\ANTI PHISHING\Anti-Phishing-based-on-VC'
+        os.chdir(directory)      
+        if(User.objects.filter(username=username).exists()):
+            video_capture = cv2.VideoCapture(0)
+            if not video_capture.isOpened():
+                print("Failed to open video capture.")
+                exit()
+            cv2.namedWindow("Live Video")
+            cv2.setMouseCallback("Live Video", capture_frame)
+            while True:
+                ret, frame = video_capture.read()
+                if ret:
+                    cv2.imshow("Live Video", frame)
+                    if cv2.waitKey(1) & 0xFF == ord('q'):
+                        break
+                else:
+                    print("Failed to capture frame from video.")
+                    break
+            video_capture.release()
+            cv2.destroyAllWindows()
+            faceRecognition = FaceRecognition()
+            originalImagePath = str(userdata[0]['image'])
+            originalImagePath = originalImagePath.replace("/","\\")
+            result = faceRecognition.classify_face(os.path.join(directory,f"captured_images\{username}.jpg"),os.path.join(directory,f"{originalImagePath}"))  
+            print(result)
+            if result == 0 or result==None:
+                messages.error(request,'Face recognition failed!Please try again.')
+                return redirect('login')
+            #else:
+                # share_url=f"/media/shares/{username}/" + username + "_share_2.png"
+                # return redirect('checkcaptcha')
+            #render(request,"website\captcha_and_share.html",{'share':share_url})
+        else:
+            messages.error(request,'Invalid Username!Please try again.')
+            return redirect('login')
+    return render(request, 'website/login.html',)

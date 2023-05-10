@@ -6,4 +6,4 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ['fullname','username', 'email', 'image']
  
-    image = forms.ImageField(required=True)
+    image = forms.ImageField(required=True,)
