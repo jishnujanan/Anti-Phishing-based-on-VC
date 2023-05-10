@@ -1,5 +1,50 @@
-{% extends "blog/base.html" %}
-{% load crispy_forms_tags %}
-{% block c %}
-    <h1>{{ user.username }}</h1>
-{% endblock c %}
+<!-- templates/capture_image.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Capture Image Test</title>
+</head>
+
+<body>
+    <h1>Capture Image Test</h1>
+    <video id="video" autoplay></video>
+    <button id="capture">Capture Image</button>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // JavaScript code to capture image
+        const video = document.getElementById('video');
+        const captureButton = document.getElementById('capture');
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+
+        // Get user's permission to use webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                // Display webcam feed in video element
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error accessing webcam:', error);
+            });
+
+        // Event listener to capture image when button is clicked
+        captureButton.addEventListener('click', () => {
+            // Set canvas dimensions to match video dimensions
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw current video frame onto canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Get base64-encoded data URL of captured image
+            const dataUrl = canvas.toDataURL('image/png');
+
+            // TODO: Submit dataUrl to server using AJAX or form submission
+        });
+
+    </script>
+</body>
+
+</html>

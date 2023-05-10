@@ -72,41 +72,41 @@ def split_image(image_path, k, n, output_dir,username):
     return [os.path.join(output_dir, f"{username}_share_{i+1}.png") for i in range(k)]
 
 
-def recombine_shares(share_paths, output_path):
-    # Load the first share image and get its size
-    share_image = Image.open(share_paths[0])
-    share_width, share_height = share_image.size
+# def recombine_shares(share_paths, output_path):
+#     # Load the first share image and get its size
+#     share_image = Image.open(share_paths[0])
+#     share_width, share_height = share_image.size
 
-    # Initialize an array to hold the recombined image
-    recombined_image = np.zeros((share_height, share_width, 3), dtype=np.uint8)
+#     # Initialize an array to hold the recombined image
+#     recombined_image = np.zeros((share_height, share_width, 3), dtype=np.uint8)
 
-    # XOR all the share arrays to obtain the recombined image array
-    for share_path in share_paths:
-        share_image = Image.open(share_path)
-        share_array = np.array(share_image)
-        recombined_image = np.bitwise_xor(recombined_image, share_array)
+#     # XOR all the share arrays to obtain the recombined image array
+#     for share_path in share_paths:
+#         share_image = Image.open(share_path)
+#         share_array = np.array(share_image)
+#         recombined_image = np.bitwise_xor(recombined_image, share_array)
 
-    # Convert the recombined image array to a PIL.Image object and save it to a file
-    recombined_image = Image.fromarray(recombined_image)
-    recombined_image.save(output_path)
+#     # Convert the recombined image array to a PIL.Image object and save it to a file
+#     recombined_image = Image.fromarray(recombined_image)
+#     recombined_image.save(output_path)
 
-    # Return the path to the recombined image file
-    return output_path
+#     # Return the path to the recombined image file
+#     return output_path
 
-input_image_path = "captcha.png"
-output_dir = "share_images"
-k = 2
-n = 2
+# input_image_path = "new.png"
+# output_dir = "share_images"
+# k = 2
+# n = 2
 
 # Split the input image into shares and save them as separate image files
-#share_paths = split_image(input_image_path, k, n, output_dir)
+# share_paths = split_image(input_image_path, k, n, output_dir,"jishnu")
 
 # print("Share images saved to:")
 # for share_path in share_paths:
-#     print(share_path)
+#      print(share_path)
 # output_path = "recombined_image.png"
 
-# # Recombine the shares into the original image and save it to a file
+# # # Recombine the shares into the original image and save it to a file
 # recombined_path = recombine_shares(share_paths, output_path)
 
 # print("Recombined image saved to:")

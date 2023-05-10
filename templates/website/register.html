@@ -1,77 +1,112 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
+'
 <head>
-	<title>Registration Form</title>
-	<style>
-		body {
-			font-family: Arial, sans-serif;
-			background-size: cover;
-			background-position: center center;
-			color: black;
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-		}
-		h1 {
-			text-align: center;
-			margin-top: 50px;
-			margin-bottom: 30px;
-		}
-		form {
-			width: 500px;
-			margin: 0 auto;
-			padding: 20px;
-			background-color: transparent;
-			border-radius: 5px;
-			box-shadow: 0 0 0px rgba(0,0,0,0.2);
-		}
-		label {
-			display: block;
-			margin-bottom: 8px;
-		}
-		input[type="text"], input[type="email"], input[type="file"] {
-			width: 100%;
-			padding: 10px;
-			border: 1px solid #ccc;
-			border-radius: 3px;
-			margin-bottom: 20px;
-			box-sizing: border-box;
-			font-size: 16px;
-			color: black;
-		}
-		input[type="submit"] {
-			background-color: #008CBA;
-			color: #fff;
-			padding: 10px 20px;
-			border: none;
-			border-radius: 3px;
-			font-size: 16px;
-			cursor: pointer;
-		}
-		input[type="submit"]:hover {
-			background-color: #006d9e;
-		}
-		.error {
-			color: #ff0000;
-			margin-top: 5px;
-			font-size: 14px;
-		}
-	</style>
+	<title>Login V2</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'icons/favicon.ico' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+	<!--===============================================================================================-->
 </head>
+
 <body>
-	<h1>Registration Form</h1>
-	<form method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-			<label for="username">Username:</label>
-			<input type="text" name="username" id="username" required>
 
-			<label for="email">Email:</label>
-			<input type="email" name="email" id="email" required>
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method="POST" enctype="multipart/form-data" >
+					{% csrf_token %}
+					<span class="login100-form-title p-b-20">
+						Welcome
+					</span>
+					<span class="login100-form-title p-b-30">
+						<i class="zmdi zmdi-font"></i>
+					</span>
 
-			<label for="profile_image">Profile Image:</label>
-			<input type="file" name="image" id="image">
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="fullname">
+						<span class="focus-input100" data-placeholder="FullName"></span>
+					</div>
 
-			<input type="submit" value="Register">
-	</form>
+					<div class="wrap-input100 validate-input">
+						<input class="input100" type="text" name="username" id="username">
+						<span class="focus-input100" data-placeholder="Username"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+						<input class="input100" type="text" name="email" id="email">
+						<span class="focus-input100" data-placeholder="Email"></span>
+					</div>
+
+					<div class="wrap-inputimage validate-input" data-validate="Upload Image">
+						<label for="profile_image">Profile Image:</label>
+						<input type="file" name="image" id="image">
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Register
+							</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-20">
+						<span class="txt1">
+							Already have an account?
+						</span>
+
+						<a class="txt2" href="{% url 'login' %}">
+							Log In
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+	<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+
 </body>
+
 </html>

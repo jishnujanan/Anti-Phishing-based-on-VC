@@ -4,6 +4,6 @@ from .models import User
 class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'image']
-
-    image = forms.ImageField(required=False)
+        fields = ['fullname','username', 'email', 'image']
+ 
+    image = forms.ImageField(required=True)
