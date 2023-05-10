@@ -8,3 +8,15 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
+
+class Captcha(models.Model):
+    username = models.OneToOneField(User,on_delete=models.CASCADE,primary_key=True)
+    captcha_1=models.CharField(max_length=50)
+    captcha_2=models.CharField(max_length=50)
+    captcha_3=models.CharField(max_length=50)
+    captcha_4=models.CharField(max_length=50)
+    captcha_5=models.CharField(max_length=50)
+    captcha_6=models.CharField(max_length=50)
+    captcha_7=models.CharField(max_length=50)
+    captcha_8=models.CharField(max_length=50)
+    
