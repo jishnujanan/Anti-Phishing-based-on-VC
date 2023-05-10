@@ -1,5 +1,5 @@
-import cv2
-
+import cv2,os
+#from face_rec import FaceRecognition
 from django.shortcuts import render
 from .forms import RegistrationForm
 from .models import User
@@ -27,11 +27,13 @@ def login(request):
     elif request.method == 'POST':
         username = request.POST.get('username')
         userdata = User.objects.filter(username = username).values()
+        print(userdata[0]['image'])
         global frame
         def capture_frame(event, x, y, flags, param):
             if event == cv2.EVENT_LBUTTONDOWN:
-                cv2.imwrite(username, frame)
-                print(OS)
+                directory = r'D:\ANTI PHISHING\Anti-Phishing-based-on-VC\captured_images'
+                os.chdir(directory)
+                cv2.imwrite(username+".jpg", frame)
         if(User.objects.filter(username=username).exists()):
             print("Username Exists")
             video_capture = cv2.VideoCapture(0)
@@ -51,6 +53,7 @@ def login(request):
                     break
             video_capture.release()
             cv2.destroyAllWindows()
+            #FaceRecognition.classify_face(username+".jpg")
             
         else:
             print("Username not Exists")
