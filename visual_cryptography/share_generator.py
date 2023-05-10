@@ -5,70 +5,47 @@ import numpy as np
 from PIL import ImageFont
 import random
 import string,os
-from captcha.image import ImageCaptcha
-
-
-def generate_captcha(username):
-    size = (200, 100)
-    bg_color = (255, 255, 255)
-    text_color = (0, 0, 0)
-    font_size = 40
-    chars = ''.join(random.choices(string.ascii_uppercase + string.digits, k=3))
-    username_chars = list(username)
-    random.shuffle(username_chars)
-    username_dearranged = ''.join(username_chars[:4])
-
-    captcha_text = username_dearranged + chars
-
-    size = (200, 100)
-    font_path = 'arial.ttf'
-
-    image = ImageCaptcha(width=size[0], height=size[1])
-    image.write(captcha_text,f'{username}.png')
-    return "Success"
 
 def generate_shares(image_array, k, n):
-    # Get the shape of the input image
     height, width, channels = image_array.shape
-
-    # Initialize a list to hold the shares
     shares = []
-
-    # Generate k-1 random arrays with the same shape as the input image
     for i in range(k-1):
         random_array = np.random.randint(0, 256, size=(height, width, channels))
         shares.append(random_array)
 
-    # Compute the last share as the XOR of the input image and all the random arrays
     last_share = image_array.copy()
-    for share in shares:
-        last_share = np.bitwise_xor(last_share, share)
+    last_share = np.bitwise_xor(last_share, shares[0])
     shares.append(last_share)
-
-    # Return the list of shares
     return shares
 
 def split_image(image_path, k, n, output_dir,username):
-    # Load the input image
+
     image = Image.open(image_path).convert("RGB")
-
-    # Convert the image to a NumPy array
     image_array = np.array(image)
-
-    # Split the image into k shares with a threshold of n
     shares = generate_shares(image_array, k, n)
 
     # Save each share as a separate image file
     for i, share in enumerate(shares):
-        # Convert the share array to a PIL.Image object
         share = share.astype('uint8')
         share_image = Image.fromarray(share)
-
-        # Save the share image to a file
         share_path = os.path.join(output_dir, f"{username}_share_{i+1}.png")
         share_image.save(share_path)
 
-    # Return the list of share paths
+    return shares[0]
+
+def split_image_new(image_path, k, n, output_dir,username,client_share,num):
+
+    image = Image.open(image_path).convert("RGB")
+    image_array = np.array(image)
+
+    last_share = image_array.copy()
+    last_share = np.bitwise_xor(last_share, client_share)
+
+    last_share = last_share.astype('uint8')
+    share_image = Image.fromarray(last_share)
+    share_path = os.path.join(output_dir, f"{username}_share_{num}.png")
+    share_image.save(share_path)
+
     return [os.path.join(output_dir, f"{username}_share_{i+1}.png") for i in range(k)]
 
 
@@ -93,22 +70,4 @@ def split_image(image_path, k, n, output_dir,username):
 #     # Return the path to the recombined image file
 #     return output_path
 
-# input_image_path = "new.png"
-# output_dir = "share_images"
-# k = 2
-# n = 2
-
-# Split the input image into shares and save them as separate image files
-# share_paths = split_image(input_image_path, k, n, output_dir,"jishnu")
-
-# print("Share images saved to:")
-# for share_path in share_paths:
-#      print(share_path)
-# output_path = "recombined_image.png"
-
-# # # Recombine the shares into the original image and save it to a file
-# recombined_path = recombine_shares(share_paths, output_path)
-
-# print("Recombined image saved to:")
-# print(recombined_path)
 

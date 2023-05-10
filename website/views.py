@@ -1,5 +1,5 @@
 import cv2,os
-#from face_rec import FaceRecognition
+from face_rec import FaceRecognition
 from django.shortcuts import render
 from .forms import RegistrationForm
 from .models import User
@@ -10,12 +10,17 @@ def register(request):
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             username = form.cleaned_data['username']
-            path = captchageneration.generate_captcha(username=username)
-            share_generator.split_image(image_path=f"static/media/captcha/{username}.png",k=2,n=2,output_dir="static/media/shares/",username=username)
-            share_url="/media/shares/" + username + "_share_1.png"
-            captcha_url="/media/captcha/" + username + ".png"
+            captcha_array=[]
+            os.mkdir(f"static/media/shares/{username}")
+            captchageneration.generate_captcha(username,captcha_array)
+            client_share=share_generator.split_image(image_path=f"static/media/captcha/{username}.png",k=2,n=2,output_dir=f"static/media/shares/{username}",username=username)
+            for i in range(3,10):
+             captchageneration.generate_captcha(username,captcha_array)
+             share_generator.split_image_new(image_path=f"static/media/captcha/{username}.png",k=2,n=2,output_dir=f"static/media/shares/{username}",username=username,client_share=client_share,num=i)
+            share_url=f"/media/shares/{username}/" + username + "_share_1.png"
+            #captcha_url="/media/captcha/" + username + ".png"
             form.save()
-            return render(request,"website/captcha_and_share.html",{'share':share_url,'captcha':captcha_url})
+            return render(request,"website/captcha_and_share.html",{'share':share_url})
     else:
         form = RegistrationForm()
     return render(request, 'website/register.html', {'form': form})

@@ -2,7 +2,7 @@ import random
 import string,os
 from captcha.image import ImageCaptcha
 
-def generate_captcha(username):
+def generate_captcha(username,captcha_array):
     size = (200, 100)
     bg_color = (255, 255, 255)
     text_color = (0, 0, 0)
@@ -13,6 +13,7 @@ def generate_captcha(username):
     random.shuffle(username_chars)
     username_dearranged = ''.join(username_chars[:4])
     captcha_text = username_dearranged + chars
+    captcha_array.append(captcha_text)
     size = (200, 100)
     font_path = 'arial.ttf'
     image = ImageCaptcha(width=size[0], height=size[1])
