@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('register/',views.register,name="register"),
     path('login/',views.login,name="login"),
-#    path('captcha/',views.captchacheck,name="checkcaptcha")
+    path('captcha/',views.checkcaptcha,name="checkcaptcha")
 ]
 
 

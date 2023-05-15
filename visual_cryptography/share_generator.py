@@ -49,25 +49,25 @@ def split_image_new(image_path, k, n, output_dir,username,client_share,num):
     return [os.path.join(output_dir, f"{username}_share_{i+1}.png") for i in range(k)]
 
 
-# def recombine_shares(share_paths, output_path):
-#     # Load the first share image and get its size
-#     share_image = Image.open(share_paths[0])
-#     share_width, share_height = share_image.size
+def recombine_shares(share_url, client_url):
+    # Load the first share image and get its size
+    share_image = Image.open(share_url)
+    share_width, share_height = share_image.size
 
-#     # Initialize an array to hold the recombined image
-#     recombined_image = np.zeros((share_height, share_width, 3), dtype=np.uint8)
+    # Initialize an array to hold the recombined image
+    recombined_image = np.zeros((share_height, share_width, 3), dtype=np.uint8)
 
-#     # XOR all the share arrays to obtain the recombined image array
-#     for share_path in share_paths:
-#         share_image = Image.open(share_path)
-#         share_array = np.array(share_image)
-#         recombined_image = np.bitwise_xor(recombined_image, share_array)
+    directory = r'D:\ANTI PHISHING\Anti-Phishing-based-on-VC'
+    os.chdir(directory)
+    # XOR all the share arrays to obtain the recombined image array
+    share_image = Image.open(share_url)
+    share_array = np.array(share_image)
+    recombined_image = np.bitwise_xor(recombined_image, share_array)
+    share_image = Image.open(client_url)
+    share_array = np.array(share_image)
+    recombined_image = np.bitwise_xor(recombined_image, share_array)
 
-#     # Convert the recombined image array to a PIL.Image object and save it to a file
-#     recombined_image = Image.fromarray(recombined_image)
-#     recombined_image.save(output_path)
-
-#     # Return the path to the recombined image file
-#     return output_path
+    # Return the path to the recombined image file
+    return recombined_image
 
 
