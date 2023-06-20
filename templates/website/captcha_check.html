@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Stylized Form Example</title>
+    <style>
+      /* Set the background color for the entire form */
+      form {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        width: 50%;
+        margin: 0 auto;
+      }
+      
+      /* Style the labels */
+      label {
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+      }
+      
+      /* Style the input fields */
+      input[type=text], input[type=email], select {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      
+      /* Style the submit button */
+      input[type=submit] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px;
+        margin-top: 10px;
+      }
+      
+      /* Style the error message */
+      .error {
+        color: red;
+        font-size: 14px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="text-align: center;">
+      <img class="image" src="{% static img_url %}" style="width: 30%; height: auto; padding: 20px;">
+    </div>
+	<form class="login100-form validate-form" method="POST" action="{% url 'checkcaptcha' %}" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="wrap-inputimage validate-input" data-validate="Upload Image">
+			<label for="ctext">Enter the captcha obtained</label>
+			<input class="input100" type="text" name="ctext" id="ctext">
+			<input type="submit" value="Submit">
+		</div>
+	</form>
+  </body>
+</html>
